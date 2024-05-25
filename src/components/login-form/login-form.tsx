@@ -43,7 +43,7 @@ export default function LoginForm() {
     <form
       onSubmit={handleSubmit}
       className={cn(
-        `m-auto flex w-full max-w-[30rem] flex-col gap-4 rounded-lg bg-blue-600/15 p-8 `
+        `m-auto flex w-full max-w-[30rem] flex-col gap-4 rounded-lg border-2 border-blue-700/40 p-8 backdrop-blur-md `
       )}
     >
       <div className={cn(`flex gap-4`)}>
