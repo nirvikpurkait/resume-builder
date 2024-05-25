@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @db.Char(24)
+  username      String         @unique
+  password      String
+  name          String?
+  role          Role           @default(STUDENT)
+  resumeDetails ResumeDetails?
+}
+
+model ResumeDetails {
+  id              String   @id @db.Char(24)
+  careerObjective String
+  address         String
+  dateOfBirth     DateTime
+  linkedIn        String
+  github          String
+  email           String
+  phone           String
+
+  workExperiences WorkExperience[]
+  projects        Projects[]
+  educations      Education[]
+  skills          Skills[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.Char(24)
+}
+
+model WorkExperience {
+  id              String    @id @db.Char(24)
+  designation     String
+  companyName     String
+  location        String
+  startDate       DateTime
+  endDate         DateTime?
+  workDescription String
+
+  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
+  resumeDetailsId String?        @db.Char(24)
+}
+
+model Projects {
+  id           String  @id @db.Char(24)
+  projectTitle String
+  overview     String?
+  liveLink     String?
+  sourceLink   String?
+
+  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
+  resumeDetailsId String?        @db.Char(24)
+}
+
+model Education {
+  id            String    @id @db.Char(24)
+  instituteName String
+  startDate     DateTime
+  endDate       DateTime?
+
+  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
+  resumeDetailsId String?        @db.Char(24)
+}
+
+model Skills {
+  id        String @id @db.Char(24)
+  skillName String
+
+  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
+  resumeDetailsId String?        @db.Char(24)
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
