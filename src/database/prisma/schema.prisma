@@ -17,7 +17,7 @@ model User {
   id            String         @id @db.Char(24)
   username      String         @unique
   password      String
-  name          String?
+  name          String
   role          Role           @default(STUDENT)
   resumeDetails ResumeDetails?
 }
