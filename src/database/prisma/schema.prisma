@@ -14,10 +14,12 @@ datasource db {
 }
 
 model User {
-  id            String         @id @db.Char(24)
-  username      String         @unique
-  password      String
-  name          String
+  id             String  @id @db.Char(24)
+  username       String  @unique
+  password       String
+  name           String
+  profilePicture String?
+
   role          Role           @default(STUDENT)
   resumeDetails ResumeDetails?
 }
@@ -70,6 +72,8 @@ model Education {
   instituteName String
   startDate     DateTime
   endDate       DateTime?
+  course        String
+  marks         Decimal?
 
   resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
   resumeDetailsId String?        @db.Char(24)

@@ -19,6 +19,7 @@ export function getUserDetails(userId: string) {
       name: true,
       role: true,
       username: true,
+      profilePicture: true,
     },
   });
 }

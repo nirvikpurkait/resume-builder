@@ -1,5 +1,7 @@
 import { cachedGetUserDetails } from "@/cache/cachedGetUserDetails";
+import { formatDateWithSuffix } from "@/utils/date";
 import React from "react";
+import EducationDetails from "./education-details";
 
 export default async function ResumeDetails({
   studentId,
@@ -27,7 +29,12 @@ export default async function ResumeDetails({
       <>
         <div>{careerObjective}</div>
         <div>{address}</div>
-        <div>{new Date(dateOfBirth).toTimeString()}</div>
+        <div>{formatDateWithSuffix(dateOfBirth)}</div>
+        <div>
+          <EducationDetails
+            educationDetails={studentDetails.resumeDetails?.educations}
+          />
+        </div>
       </>
     );
   }
