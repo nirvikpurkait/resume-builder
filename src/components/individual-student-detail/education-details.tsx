@@ -1,7 +1,7 @@
 import { prisma } from "@/database";
 import { cn } from "@/lib/shadcn-ui/utils";
-import { formatDateWithSuffix } from "@/utils/date";
 import React from "react";
+import DetailsHeading from "./details-heading";
 
 type EducationDetailsProps = Awaited<
   ReturnType<typeof prisma.education.findMany>
@@ -11,8 +11,9 @@ export default async function EducationDetails(props: {
   educationDetails: EducationDetailsProps;
 }) {
   return (
-    <div>
-      <table className={cn(`block text-lg`)}>
+    <div className={cn(`overflow-x-auto`)}>
+      <DetailsHeading>Education details</DetailsHeading>
+      <table className={cn(`block min-w-[45rem] text-lg`)}>
         <thead className={cn(`block bg-blue-500 text-xl text-white`)}>
           <tr
             className={cn(`flex w-full justify-between border-b border-white`)}

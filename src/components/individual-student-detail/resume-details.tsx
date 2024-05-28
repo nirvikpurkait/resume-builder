@@ -2,6 +2,11 @@ import { cachedGetUserDetails } from "@/cache/cachedGetUserDetails";
 import { formatDateWithSuffix } from "@/utils/date";
 import React from "react";
 import EducationDetails from "./education-details";
+import CareerObjective from "./career-objective";
+import { cn } from "@/lib/shadcn-ui/utils";
+import Skills from "./skills";
+import ProjectDetails from "./project-details";
+import WorkExperience from "./work-experience";
 
 export default async function ResumeDetails({
   studentId,
@@ -17,23 +22,22 @@ export default async function ResumeDetails({
       careerObjective,
       dateOfBirth,
       educations,
-      email,
-      github,
-      linkedIn,
-      phone,
       projects,
       skills,
       workExperiences,
     } = studentDetails.resumeDetails;
     return (
       <>
-        <div>{careerObjective}</div>
-        <div>{address}</div>
-        <div>{formatDateWithSuffix(dateOfBirth)}</div>
-        <div>
-          <EducationDetails
-            educationDetails={studentDetails.resumeDetails?.educations}
-          />
+        <div className={cn(`space-y-8`)}>
+          <CareerObjective careerObjective={careerObjective} />
+
+          <EducationDetails educationDetails={educations} />
+
+          <Skills skillsDetails={skills} />
+
+          <ProjectDetails projectDetails={projects} />
+
+          <WorkExperience workExperience={workExperiences} />
         </div>
       </>
     );

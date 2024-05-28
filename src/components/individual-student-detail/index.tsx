@@ -1,12 +1,12 @@
 import React from "react";
 import Name from "./name";
 import { cachedGetUserDetails } from "@/cache/cachedGetUserDetails";
-import Username from "./username";
 import ResumeDetails from "./resume-details";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { nameInitials } from "@/utils/name-initials";
 import Contacts from "./contacts";
 import { cn } from "@/lib/shadcn-ui/utils";
+import NoDetails from "../no-details";
 
 export default async function StudentDetails({
   studentId,
@@ -14,10 +14,11 @@ export default async function StudentDetails({
   studentId: string;
 }) {
   const studentDetails = await cachedGetUserDetails(studentId);
-  if (studentDetails === null) return <></>;
+
+  if (studentDetails === null) return <NoDetails />;
 
   return (
-    <div className={cn(`mt-16`)}>
+    <div className={cn(`my-16`)}>
       <div className={cn(`flex items-center gap-6`)}>
         <UserAvatar
           profilePicture={studentDetails.profilePicture}
@@ -25,7 +26,6 @@ export default async function StudentDetails({
         />
         <div className={cn(`w-full`)}>
           <Name name={studentDetails.name} />
-          <Username username={studentDetails.username} />
           <Contacts data={studentDetails.resumeDetails} />
         </div>
       </div>

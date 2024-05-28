@@ -9,7 +9,11 @@ export function getUserDetails(userId: string) {
     select: {
       resumeDetails: {
         include: {
-          educations: true,
+          educations: {
+            orderBy: {
+              endDate: "desc",
+            },
+          },
           projects: true,
           skills: true,
           workExperiences: true,

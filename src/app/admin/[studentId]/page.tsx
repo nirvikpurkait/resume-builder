@@ -8,7 +8,7 @@ export default async function StudentDetailsPage({
   params: { studentId: string };
 }) {
   return (
-    <main className={cn(`m-auto w-full max-w-[70rem]`)}>
+    <main className={cn(`m-auto w-full max-w-[70rem] px-8`)}>
       <StudentDetails studentId={params.studentId}></StudentDetails>
     </main>
   );

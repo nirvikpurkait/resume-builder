@@ -26,7 +26,7 @@ model User {
 
 model ResumeDetails {
   id              String   @id @db.Char(24)
-  careerObjective String
+  careerObjective String   @db.VarChar(200)
   address         String
   dateOfBirth     DateTime
   linkedIn        String
@@ -57,11 +57,12 @@ model WorkExperience {
 }
 
 model Projects {
-  id           String  @id @db.Char(24)
-  projectTitle String
-  overview     String?
-  liveLink     String?
-  sourceLink   String?
+  id                  String  @id @db.Char(24)
+  projectTitle        String
+  overview            String?
+  liveLink            String?
+  sourceLink          String?
+  projectThumbnailUrl String?
 
   resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id])
   resumeDetailsId String?        @db.Char(24)
