@@ -1,7 +1,7 @@
 "use client";
 
 import { getBasicInfo } from "@/app/api/server-actions/get-basic-info.sa";
-import { updateBasicInfo } from "@/app/api/server-actions/update-basic-info.sa";
+import { updateBasicInfo } from "@/app/api/server-actions/save-basic-info.sa";
 import { prisma } from "@/database";
 import React from "react";
 import { useForm } from "react-hook-form";
