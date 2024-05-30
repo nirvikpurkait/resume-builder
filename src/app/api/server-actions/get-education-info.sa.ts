@@ -24,11 +24,12 @@ export async function getEducationInfo(): Promise<FormFields> {
       endDate: true,
       startDate: true,
       marks: true,
+      id: true,
     },
   });
 
   const value = educationDetails.map((detail) => {
-    const { course, endDate, instituteName, marks, startDate } = detail;
+    const { course, endDate, instituteName, marks, startDate, id } = detail;
     return {
       course,
       endDate: endDate
@@ -36,7 +37,8 @@ export async function getEducationInfo(): Promise<FormFields> {
         : formatDateForInputType(new Date()),
       instituteName,
       marks: marks ? Number(marks) : 0,
-      startDate: new Date(startDate).toISOString(),
+      startDate: formatDateForInputType(startDate),
+      detailsId: id,
     };
   });
 

@@ -1,14 +1,15 @@
 "use client";
 
 import { getEducationInfo } from "@/app/api/server-actions/get-education-info.sa";
-import { saveEducationDetails } from "@/app/api/server-actions/save-education-info.sa";
+import { deleteEducationDetails } from "@/app/api/server-actions/delete-education-details.sa";
 import { prisma } from "@/database";
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { saveEducationDetails } from "@/app/api/server-actions/save-education-info.sa";
 
 export type TEducationDetails = Omit<
   NonNullable<Awaited<ReturnType<typeof prisma.education.findFirst>>>,
-  "id" | "resumeDetailsId"
+  "resumeDetailsId"
 >;
 
 export type TEducaionFields = Pick<
@@ -21,11 +22,14 @@ export type FormFields = {
     marks: number;
     startDate: string;
     endDate: string;
+    detailsId: string;
   })[];
 };
 
+export type TDetailsToSave = FormFields["educationFields"][number];
+
 export default function EducationDetails() {
-  const { register, handleSubmit, control } = useForm<FormFields>({
+  const { register, control, getValues } = useForm<FormFields>({
     defaultValues: async () => getEducationInfo(),
   });
 
@@ -34,12 +38,18 @@ export default function EducationDetails() {
     control,
   });
 
-  const onSubmit = async (data: FormFields) => {
-    saveEducationDetails(data);
+  const deleteThisField = async (fieldIndex: number, detailsId: string) => {
+    remove(fieldIndex);
+    if (detailsId !== "") await deleteEducationDetails(detailsId);
+  };
+
+  const saveTheFieldToDB = async (index: number) => {
+    const data = getValues().educationFields[index];
+    await saveEducationDetails(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       {fields.map((field, index) => {
         return (
           <div key={field.id}>
@@ -88,8 +98,15 @@ export default function EducationDetails() {
               />
             </div>
 
-            <button onClick={() => remove(index)} type="button">
+            <button
+              onClick={() => deleteThisField(index, field.detailsId)}
+              type="button"
+            >
               Delete
+            </button>
+
+            <button type="button" onClick={() => saveTheFieldToDB(index)}>
+              Save
             </button>
           </div>
         );
@@ -103,38 +120,13 @@ export default function EducationDetails() {
             instituteName: "",
             marks: 0,
             startDate: "",
+            detailsId: "",
           })
         }
         type="button"
       >
         Add another field
       </button>
-      {/* <div>
-        <label htmlFor="institute">Institute name:</label>
-        <input type="text" id="institute" />
-      </div>
-
-      <div>
-        <label htmlFor="course">Course name:</label>
-        <input type="text" id="course" />
-      </div>
-
-      <div>
-        <label htmlFor="marks">Marks:</label>
-        <input type="text" id="marks" />
-      </div>
-
-      <div>
-        <label htmlFor="start-date">Start date:</label>
-        <input type="date" id="start-date" />
-      </div>
-
-      <div>
-        <label htmlFor="end-date">End date:</label>
-        <input type="date" id="end-date" />
-      </div> */}
-
-      <button type="submit">Save</button>
     </form>
   );
 }

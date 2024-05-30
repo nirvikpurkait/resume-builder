@@ -1,47 +1,51 @@
 "use server";
 
 import { revalidateUserDetails } from "@/cache/cachedGetUserDetails";
-import { FormFields } from "@/components/resume-form/education-details";
+import { TDetailsToSave } from "@/components/resume-form/education-details";
 import { prisma } from "@/database";
-import { id } from "@/utils/id";
+import { getCookie } from "@/utils/cookies/server";
+import { id as creteId } from "@/utils/id";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
 
-export async function saveEducationDetails(data: FormFields) {
-  const { educationFields } = data;
+// Todo: handle the error for id that is not present in database
 
-  const cookieStore = cookies();
-  const userId = cookieStore.get("userId")?.value;
+export async function saveEducationDetails(data: TDetailsToSave) {
+  const { course, detailsId, endDate, instituteName, marks, startDate } = data;
 
-  await prisma.education.deleteMany({
-    where: {
-      resumeDetails: {
+  const userId = getCookie("userId");
+
+  if (!userId) return;
+
+  const resumeId = (
+    await prisma.resumeDetails.findFirst({
+      where: {
         userId: userId,
       },
-    },
-  });
+    })
+  )?.id;
 
-  const resumeId = await prisma.resumeDetails.findFirst({
+  console.log(data);
+
+  await prisma.education.upsert({
+    update: {
+      course,
+      instituteName,
+      marks,
+      endDate: new Date(endDate),
+      startDate: new Date(startDate),
+    },
     where: {
-      userId: userId,
+      id: detailsId,
     },
-    select: {
-      id: true,
+    create: {
+      course,
+      id: creteId(),
+      instituteName,
+      marks,
+      startDate: new Date(startDate),
+      resumeDetailsId: resumeId,
+      endDate: new Date(endDate),
     },
-  });
-
-  await prisma.education.createMany({
-    data: educationFields.map((field) => {
-      return {
-        id: id(),
-        course: field.course,
-        instituteName: field.instituteName,
-        marks: field.marks,
-        endDate: new Date(field.endDate),
-        startDate: new Date(field.startDate),
-        resumeDetailsId: resumeId?.id,
-      };
-    }),
   });
 
   revalidateTag(revalidateUserDetails);
