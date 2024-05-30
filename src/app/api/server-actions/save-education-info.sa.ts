@@ -24,8 +24,6 @@ export async function saveEducationDetails(data: TDetailsToSave) {
     })
   )?.id;
 
-  console.log(data);
-
   await prisma.education.upsert({
     update: {
       course,

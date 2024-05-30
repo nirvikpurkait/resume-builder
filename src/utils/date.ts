@@ -32,6 +32,5 @@ export function formatDateForInputType(date: Date) {
   const month = parsedDate.getMonth() + 1;
   const year = parsedDate.getFullYear();
   const finalDate = `${year}-${month}-${day}`;
-  console.log(finalDate);
   return finalDate;
 }
