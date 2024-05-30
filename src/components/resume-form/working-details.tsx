@@ -34,7 +34,6 @@ export default function WorkingDetails() {
 
   const saveDetails = async (index: number) => {
     const { workingDetails } = getValues();
-    // console.log(workingDetails[index]);
     await saveWorkingDetails(workingDetails[index]);
     refresh();
   };
