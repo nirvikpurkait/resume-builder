@@ -4,6 +4,7 @@ import React from "react";
 import WorkingDetails from "@/components/resume-form/working-details";
 import ClientForm from "@/components/resume-form/skills-details/client-form";
 import SkillList from "@/components/resume-form/skills-details/skill-list";
+import ServerWrapper from "@/components/resume-form/project/server-wrapper";
 
 export default function StudentPage() {
   return (
@@ -11,7 +12,8 @@ export default function StudentPage() {
       {/* <BasicDetails/> */}
       {/* <EducationDetails /> */}
       {/* <WorkingDetails /> */}
-      <ClientForm skillList={<SkillList />} />
+      {/* <ClientForm skillList={<SkillList />} /> */}
+      <ServerWrapper />
     </div>
   );
 }
