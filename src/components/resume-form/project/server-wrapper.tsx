@@ -16,7 +16,7 @@ export type TProjectFormField = {
   })[];
 };
 
-export default async function ServerWrapper() {
+export default async function ProjectDetails() {
   const projectDetails = await getProjectDetails();
 
   return <ProjectForm defaultValues={projectDetails} />;
