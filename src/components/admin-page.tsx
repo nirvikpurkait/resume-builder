@@ -37,10 +37,12 @@ export default async function Admin() {
                 <td className={cn(`basis-[40%] border-l border-r`)}>
                   <span className={cn(`px-2`)}>{student.username}</span>
                 </td>
-                <td className={cn(`basis-[40%] border-l`)}>
+                <td className={cn(`flex basis-[40%] justify-center border-l`)}>
                   <Link
                     href={`/admin/${student.id}`}
-                    className={cn(`flex justify-center`)}
+                    className={cn(
+                      `flex justify-center text-blue-500 underline`
+                    )}
                   >
                     See Details
                   </Link>
