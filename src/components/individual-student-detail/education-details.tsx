@@ -24,7 +24,7 @@ export default async function EducationDetails(props: {
             <th className={cn(`basis-[40%] border-l`)}>Duration</th>
           </tr>
         </thead>
-        <tbody className={cn(`block `)}>
+        <tbody className={cn(`block`)}>
           {props.educationDetails.map((courseDetails) => {
             const { id, course, endDate, instituteName, startDate, marks } =
               courseDetails;
