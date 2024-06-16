@@ -1,8 +1,19 @@
 import LoginForm from "@/components/login-form/login-form";
 import { cn } from "@/lib/shadcn-ui/utils";
+import { role } from "@/utils/cookies/cookie-name";
+import { getCookie } from "@/utils/cookies/server";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const usertype = getCookie(role);
+  if (usertype === "ADMIN") {
+    redirect("/admin");
+  }
+  if (usertype === "STUDENT") {
+    redirect("/student");
+  }
+
   return (
     <main className="relative flex min-h-[100vh] items-center justify-center">
       <Image

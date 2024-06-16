@@ -13,6 +13,10 @@ export type TLoginActionResponse = {
 export const login = async (
   formData: TLoginFormData
 ): Promise<TLoginActionResponse> => {
+  // ! intentional delay generator, comment on production
+  // await new Promise((res) => setTimeout(res, 3000));
+  // ! intentional delay generator, comment on production
+
   const user = await prisma.user.findUnique({
     where: { username: formData.username },
   });

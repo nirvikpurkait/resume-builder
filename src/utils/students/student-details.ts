@@ -7,23 +7,24 @@ export function getUserDetails(userId: string) {
       role: "STUDENT",
     },
     select: {
-      resumeDetails: {
-        include: {
-          educations: {
-            orderBy: {
-              endDate: "desc",
-            },
-          },
-          projects: true,
-          skills: true,
-          workExperiences: true,
-        },
-      },
       id: true,
       name: true,
+      profilePicture: true,
+      resumeDetails: true,
+      projects: true,
+      skills: true,
       role: true,
       username: true,
-      profilePicture: true,
+      workExperiences: {
+        orderBy: {
+          startDate: "desc",
+        },
+      },
+      educations: {
+        orderBy: {
+          endDate: "asc",
+        },
+      },
     },
   });
 }

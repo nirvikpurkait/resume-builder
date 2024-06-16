@@ -20,8 +20,26 @@ model User {
   name           String
   profilePicture String?
 
-  role          Role           @default(STUDENT)
-  resumeDetails ResumeDetails?
+  role Role @default(STUDENT)
+
+  resumeDetails   ResumeDetails? // 1-1 relation
+  workExperiences WorkExperience[] // 1-m relation
+  projects        Projects[] // 1-m relation
+  educations      Education[] // 1-m relation
+  skills          SkillsOfUser[] // m-n relation
+}
+
+model WorkExperience {
+  id              String    @id @db.Char(24)
+  designation     String
+  companyName     String
+  workDescription String?
+  location        String
+  startDate       DateTime
+  endDate         DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @db.Char(24)
 }
 
 model ResumeDetails {
@@ -34,58 +52,48 @@ model ResumeDetails {
   email           String
   phone           String
 
-  workExperiences WorkExperience[]
-  projects        Projects[]
-  educations      Education[]
-  skills          Skills[]
-
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique @db.Char(24)
-}
-
-model WorkExperience {
-  id              String    @id @db.Char(24)
-  designation     String
-  companyName     String
-  location        String
-  startDate       DateTime
-  endDate         DateTime?
-  workDescription String
-
-  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  resumeDetailsId String?        @db.Char(24)
 }
 
 model Projects {
   id                  String  @id @db.Char(24)
   projectTitle        String
-  overview            String?
+  projectOverview     String?
   liveLink            String?
   sourceLink          String?
   projectThumbnailUrl String?
 
-  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  resumeDetailsId String?        @db.Char(24)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @db.Char(24)
 }
 
 model Education {
   id            String    @id @db.Char(24)
   instituteName String
+  university    String
   startDate     DateTime
   endDate       DateTime?
   course        String
   marks         Decimal?
 
-  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  resumeDetailsId String?        @db.Char(24)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @db.Char(24)
 }
 
 model Skills {
-  id        String @id @db.Char(24)
-  skillName String
+  id         String         @id @db.Char(24)
+  skillsName String         @db.VarChar(20)
+  userIds    SkillsOfUser[]
+}
 
-  resumeDetails   ResumeDetails? @relation(fields: [resumeDetailsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  resumeDetailsId String?        @db.Char(24)
+model SkillsOfUser {
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  skills   Skills @relation(fields: [skillsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  skillsId String
+
+  @@id([userId, skillsId])
 }
 
 enum Role {

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prisma-push": "npx prisma db push",
-    "delete-dll": "cd \"node_modules/.prisma/client\" && rm query_engine-windows.dll.node",
+    "delete-dll": "npx rimraf \"node_modules/.prisma/client/query_engine-windows.dll.node\"",
     "prisma-studio": "npx prisma studio --browser none"
   },
   "prisma": {
@@ -33,6 +33,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "react-hot-toast": "^2.4.1",
     "sharp": "^0.33.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
@@ -47,6 +48,7 @@
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "rimraf": "^5.0.7",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
